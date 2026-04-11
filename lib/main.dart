@@ -122,10 +122,13 @@ class _ClassifierPageState extends State<ClassifierPage> {
       final uiImage = await TensorImageUtils.imageProviderToImage(provider);
 
       // 2. Convert to Tensor [1, 3, 224, 224] (NCHW)
+      // Including normalization (ImageNet standard) for improved accuracy
       final tensor = await TensorImageUtils.imageToFloat32Tensor(
         uiImage,
         width: 224,
         height: 224,
+        mean: [0.485, 0.456, 0.406],
+        std: [0.229, 0.224, 0.225],
       );
 
       // 3. Run inference

@@ -2,6 +2,8 @@
 
 Aplikasi Flutter berbasis Deep Learning untuk klasifikasi dan sortir biji kopi secara on-device menggunakan PyTorch Lite. Aplikasi ini dirancang untuk mendeteksi empat kategori utama biji kopi: **Peaberry, Longberry, Premium, dan Defect**.
 
+Ini Link Google Colab : [Google Colab](https://drive.google.com/file/d/1a8nn1rYWzFGlMujniUdi8x0xEx-NGXER/view?usp=sharing)
+
 ## Fitur Utama
 
 - **Inference AI Lokal**: Menjalankan model Deep Learning (`.ptl`) langsung di perangkat tanpa memerlukan koneksi internet.
