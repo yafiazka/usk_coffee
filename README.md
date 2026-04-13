@@ -25,12 +25,24 @@ Ini Link Dataset : [Dataset Coffee USK](https://drive.google.com/drive/folders/1
 
 ## Daftar Kelas Klasifikasi
 
-| Kelas         | Deskripsi                                             |
-| ------------- | ----------------------------------------------------- |
-| **Peaberry**  | Biji kopi tunggal berbentuk bulat (lantang).          |
-| **Longberry** | Biji kopi dengan bentuk memanjang melebihi rata-rata. |
-| **Premium**   | Biji kopi kualitas ekspor dengan bentuk sempurna.     |
-| **Defect**    | Biji kopi yang cacat, pecah, atau rusak.              |
+| Kelas         | Deskripsi                                             | Visualisasi |
+| ------------- | ----------------------------------------------------- | ----------- |
+| **Peaberry**  | Biji kopi tunggal berbentuk bulat (lantang).          | ![Peaberry](assets/docs/peaberry.jpg) |
+| **Longberry** | Biji kopi dengan bentuk memanjang melebihi rata-rata. | ![Longberry](assets/docs/longberry.jpg) |
+| **Premium**   | Biji kopi kualitas ekspor dengan bentuk sempurna.     | ![Premium](assets/docs/premium.jpg) |
+| **Defect**    | Biji kopi yang cacat, pecah, atau rusak.              | ![Defect](assets/docs/defect.jpg) |
+
+## Hasil Training & Evaluasi
+
+Untuk memastikan akurasi klasifikasi, model telah dilatih dan dievaluasi dengan hasil sebagai berikut:
+
+### Grafik Konvergen
+Grafik ini menunjukkan proses pembelajaran model selama training dan validasi.
+![Grafik Konvergen](assets/docs/grafik_konvergen.png)
+
+### Confusion Matrix
+Confusion matrix memberikan gambaran performa model dalam mengklasifikasikan setiap kelas secara detail.
+![Confusion Matrix](assets/docs/confusion_matrix.png)
 
 ## Persyaratan Sistem
 
