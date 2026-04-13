@@ -4,6 +4,8 @@ Aplikasi Flutter berbasis Deep Learning untuk klasifikasi dan sortir biji kopi s
 
 Ini Link Hugging Face Space : [Coffee Classifier Space](https://yafiazka-coffee-classifier.hf.space/)
 
+Ini Link Dataset : [Dataset Coffee USK](https://drive.google.com/drive/folders/1jMDKadmh39ihWtb6sTqYXOdmr1yIwS5T?usp=drive_link)
+
 ## Fitur Utama
 
 - **Inference AI Online**: Menggunakan model Deep Learning yang dideploy di Hugging Face Spaces melalui Gradio API.
