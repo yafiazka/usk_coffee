@@ -2,6 +2,8 @@
 
 Aplikasi Flutter berbasis Deep Learning untuk klasifikasi dan sortir biji kopi secara online menggunakan integrasi **Gradio API (Hugging Face)**. Aplikasi ini dirancang untuk mendeteksi empat kategori utama biji kopi: **Peaberry, Longberry, Premium, dan Defect**.
 
+Ini Link Google Colab : [Google Colab](https://drive.google.com/file/d/1a8nn1rYWzFGlMujniUdi8x0xEx-NGXER/view?usp=sharing)
+
 Ini Link Hugging Face Space : [Coffee Classifier Space](https://yafiazka-coffee-classifier.hf.space/)
 
 Ini Link Dataset : [Dataset Coffee USK](https://drive.google.com/drive/folders/1jMDKadmh39ihWtb6sTqYXOdmr1yIwS5T?usp=drive_link)
