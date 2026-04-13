@@ -1,25 +1,14 @@
 import 'dart:io';
-import 'dart:math';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_pytorch_lite/flutter_pytorch_lite.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:usk_coffee/api/model-api.dart';
 
 void main() {
   runApp(const CoffeeClassifierApp());
 }
 
-// Custom class to store result data
-class CoffeeResult {
-  final String label;
-  final double score;
-
-  CoffeeResult({required this.label, required this.score});
-}
+// CoffeeResult is now imported from model-api.dart
 
 class CoffeeClassifierApp extends StatelessWidget {
   const CoffeeClassifierApp({super.key});
@@ -50,37 +39,15 @@ class ClassifierPage extends StatefulWidget {
 
 class _ClassifierPageState extends State<ClassifierPage> {
   File? _image;
-  Module? _module;
   List<CoffeeResult>? _results;
   bool _isProcessing = false;
   final ImagePicker _picker = ImagePicker();
 
-  // Labels based on the requirement
-  final List<String> _labels = ['peaberry', 'longberry', 'premium', 'defect'];
-
   @override
   void initState() {
     super.initState();
-    _loadModel();
   }
 
-  Future<void> _loadModel() async {
-    try {
-      // flutter_pytorch_lite requires model to be in a file path
-      // So we copy from assets to a temp directory
-      final directory = await getApplicationDocumentsDirectory();
-      final filePath = '${directory.path}/coffee_model.ptl';
-      
-      final byteData = await rootBundle.load("assets/model/coffee_model_flutter.ptl");
-      final file = File(filePath);
-      await file.writeAsBytes(byteData.buffer.asUint8List());
-
-      _module = await FlutterPytorchLite.load(filePath);
-      debugPrint("Model loaded successfully from $filePath");
-    } catch (e) {
-      debugPrint("Failed to load model: $e");
-    }
-  }
 
   Future<void> _pickImage(ImageSource source) async {
     // Request permissions
@@ -100,59 +67,18 @@ class _ClassifierPageState extends State<ClassifierPage> {
     }
   }
 
-  // Softmax function to convert logits to probabilities
-  List<double> _softmax(Float32List logits) {
-    double maxLogit = logits.reduce(max);
-    List<double> exps = logits.map((l) => exp(l - maxLogit)).toList();
-    double sumExps = exps.reduce((a, b) => a + b);
-    return exps.map((e) => e / sumExps).toList();
-  }
 
   Future<void> _runInference() async {
-    if (_image == null || _module == null) return;
+    if (_image == null) return;
 
     setState(() {
       _isProcessing = true;
     });
 
     try {
-      // 1. Prepare image as Tensor
-      // Convert File to ImageProvider then to ui.Image
-      final provider = FileImage(_image!);
-      final uiImage = await TensorImageUtils.imageProviderToImage(provider);
-
-      // 2. Convert to Tensor [1, 3, 224, 224] (NCHW)
-      // Including normalization (ImageNet standard) for improved accuracy
-      final tensor = await TensorImageUtils.imageToFloat32Tensor(
-        uiImage,
-        width: 224,
-        height: 224,
-        mean: [0.485, 0.456, 0.406],
-        std: [0.229, 0.224, 0.225],
-      );
-
-      // 3. Run inference
-      final input = IValue.from(tensor);
-      final outputIValue = await _module!.forward([input]);
-      
-      // 4. Extract data and process
-      final outputTensor = outputIValue.toTensor();
-      final Float32List logits = outputTensor.dataAsFloat32List;
-      final List<double> probabilities = _softmax(logits);
-
-      // 5. Map to labels and sort
-      List<CoffeeResult> unsortedResults = [];
-      for (int i = 0; i < min(_labels.length, probabilities.length); i++) {
-        unsortedResults.add(CoffeeResult(
-          label: _labels[i],
-          score: probabilities[i],
-        ));
-      }
-
-      unsortedResults.sort((a, b) => b.score.compareTo(a.score));
-
+      final results = await classifyCoffee(_image!);
       setState(() {
-        _results = unsortedResults;
+        _results = results;
       });
     } catch (e) {
       debugPrint("Inference error: $e");
@@ -167,6 +93,7 @@ class _ClassifierPageState extends State<ClassifierPage> {
       });
     }
   }
+  
 
   void _reset() {
     setState(() {
