@@ -4,6 +4,8 @@ Aplikasi Flutter berbasis Deep Learning untuk klasifikasi dan sortir biji kopi s
 
 Ini Link Google Colab : [Google Colab](https://drive.google.com/file/d/1a8nn1rYWzFGlMujniUdi8x0xEx-NGXER/view?usp=sharing)
 
+Ini Link Hugging Face : [Hugging Face](https://yafiazka-coffee-classifier.hf.space/api/predict)
+
 ## Fitur Utama
 
 - **Inference AI Lokal**: Menjalankan model Deep Learning (`.ptl`) langsung di perangkat tanpa memerlukan koneksi internet.
