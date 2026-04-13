@@ -6,6 +6,8 @@ Ini Link Google Colab : [Google Colab](https://drive.google.com/file/d/1a8nn1rYW
 
 Ini Link Hugging Face : [Hugging Face](https://yafiazka-coffee-classifier.hf.space/api/predict)
 
+Ini Link Dataset : [Dataset Coffee USK]([https://yafiazka-coffee-classifier.hf.space/api/predict](https://drive.google.com/drive/folders/1jMDKadmh39ihWtb6sTqYXOdmr1yIwS5T?usp=drive_link))
+
 ## Fitur Utama
 
 - **Inference AI**: Menjalankan model Deep Learning langsung di perangkat menggunakan integrasi Hungging Face.
