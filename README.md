@@ -8,7 +8,7 @@ Ini Link Hugging Face : [Hugging Face](https://yafiazka-coffee-classifier.hf.spa
 
 ## Fitur Utama
 
-- **Inference AI Lokal**: Menjalankan model Deep Learning (`.ptl`) langsung di perangkat tanpa memerlukan koneksi internet.
+- **Inference AI**: Menjalankan model Deep Learning langsung di perangkat menggunakan integrasi Hungging Face.
 - **Deteksi Real-time**: Mendukung pengambilan foto langsung dari kamera maupun unggah gambar dari galeri.
 - **Analisis Detail**: Menampilkan prediksi utama beserta skor probabilitas (persentase) untuk tiap kelas.
 - **Desain Premium**: Antarmuka pengguna yang bersih, responsif, dan bertema kopi.
