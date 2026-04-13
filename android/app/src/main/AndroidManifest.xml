@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
 
     <application
-        android:label="usk_coffee"
+        android:label="USK Coffee"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
