@@ -37,6 +37,7 @@ dependencies:
   image_picker: ^1.1.2
   permission_handler: ^11.3.1
   http: ^1.2.2
+  # hugging_face_chat_gradio: ^0.0.7
 
 dev_dependencies:
   flutter_test:

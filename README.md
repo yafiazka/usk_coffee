@@ -1,24 +1,25 @@
 # USK Coffee Classifier
 
-Aplikasi Flutter berbasis Deep Learning untuk klasifikasi dan sortir biji kopi secara on-device menggunakan PyTorch Lite. Aplikasi ini dirancang untuk mendeteksi empat kategori utama biji kopi: **Peaberry, Longberry, Premium, dan Defect**.
+Aplikasi Flutter berbasis Deep Learning untuk klasifikasi dan sortir biji kopi secara online menggunakan integrasi **Gradio API (Hugging Face)**. Aplikasi ini dirancang untuk mendeteksi empat kategori utama biji kopi: **Peaberry, Longberry, Premium, dan Defect**.
 
-Ini Link Google Colab : [Google Colab](https://drive.google.com/file/d/1a8nn1rYWzFGlMujniUdi8x0xEx-NGXER/view?usp=sharing)
-
-Ini Link Hugging Face : [Hugging Face](https://yafiazka-coffee-classifier.hf.space/api/predict)
+Ini Link Hugging Face Space : [Coffee Classifier Space](https://yafiazka-coffee-classifier.hf.space/)
 
 ## Fitur Utama
 
-- **Inference AI**: Menjalankan model Deep Learning langsung di perangkat menggunakan integrasi Hungging Face.
-- **Deteksi Real-time**: Mendukung pengambilan foto langsung dari kamera maupun unggah gambar dari galeri.
-- **Analisis Detail**: Menampilkan prediksi utama beserta skor probabilitas (persentase) untuk tiap kelas.
-- **Desain Premium**: Antarmuka pengguna yang bersih, responsif, dan bertema kopi.
+- **Inference AI Online**: Menggunakan model Deep Learning yang dideploy di Hugging Face Spaces melalui Gradio API.
+- **Connectivity Check**: Pengecekan otomatis saat aplikasi dibuka untuk memastikan server API siap digunakan.
+- **Robust Processing**: Menggunakan alur *upload-then-predict* untuk memastikan pemrosesan gambar yang stabil dari berbagai sumber.
+- **Deteksi Fleksibel**: Mendukung pengambilan foto langsung dari kamera maupun unggah gambar dari galeri.
+- **Analisis Detail**: Menampilkan prediksi utama beserta skor probabilitas (persentase) untuk setiap kelas.
+- **Desain Premium**: Antarmuka pengguna yang bersih, responsif, dan bertema kopi dengan palet warna cokelat elegan.
 
 ## Teknologi yang Digunakan
 
 - **Framework**: [Flutter](https://flutter.dev/)
-- **AI Engine**: [flutter_pytorch_lite](https://pub.dev/packages/flutter_pytorch_lite) (v0.1.0+3)
+- **Networking**: [http](https://pub.dev/packages/http) (Integrasi Gradio 4 API)
 - **Image Processing**: [image_picker](https://pub.dev/packages/image_picker)
-- **Model Deep Learning**: PyTorch Mobile Optimized (`.ptl`)
+- **Permission Management**: [permission_handler](https://pub.dev/packages/permission_handler)
+- **API Engine**: Gradio Asynchronous Call (Step-by-step Upload & Predict)
 
 ## Daftar Kelas Klasifikasi
 
@@ -32,36 +33,29 @@ Ini Link Hugging Face : [Hugging Face](https://yafiazka-coffee-classifier.hf.spa
 ## Persyaratan Sistem
 
 - **Android SDK**: minimal API 21 (Android 5.0).
-- **Hardware**: Disarankan menggunakan perangkat fisik (bukan emulator) untuk performa inferensi AI yang optimal.
+- **Koneksi Internet**: Diperlukan untuk melakukan klasifikasi gambar karena model berjalan di server.
 
 ## Panduan Instalasi
 
 1. **Clone repositori**:
-
    ```bash
    git clone [url-repositori-anda]
    ```
-
 2. **Instal dependensi**:
-
    ```bash
    flutter pub get
    ```
-
-3. **Pastikan model tersedia**:
-   Letakkan file model Anda di: `assets/model/coffee_model_flutter.ptl`.
-
-4. **Jalankan Aplikasi**:
+3. **Jalankan Aplikasi**:
    ```bash
    flutter run
    ```
 
-## Struktur Proyek
+## Struktur Proyek Utama
 
-- `lib/main.dart`: Logika utama UI, pengambilan gambar, dan inferensi model.
-- `assets/model/`: Tempat menyimpan model PyTorch Lite.
-- `android/`: Konfigurasi platform Android (Permission, FileProvider, dll).
+- `lib/main.dart`: Antarmuka pengguna utama dan logika integrasi UI.
+- `lib/api/model-api.dart`: Service layer untuk komunikasi ke Gradio API (Upload, Call, dan SSE Stream handling).
 
-## Lisensi
+## Kontributor & Lisensi
 
 Proyek ini dibuat untuk keperluan studi dan riset klasifikasi biji kopi.
+

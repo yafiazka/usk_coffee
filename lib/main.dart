@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -46,8 +47,39 @@ class _ClassifierPageState extends State<ClassifierPage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkConnectivity();
+    });
   }
 
+  Future<void> _checkConnectivity() async {
+    final bool isConnected = await checkApiConnection();
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(
+                isConnected ? Icons.check_circle : Icons.error,
+                color: Colors.white,
+              ),
+              const SizedBox(width: 10),
+              Text(
+                isConnected
+                    ? "API Terhubung: Siap digunakan!"
+                    : "API Tidak Terhubung: Periksa koneksi internet Anda.",
+              ),
+            ],
+          ),
+          backgroundColor: isConnected ? Colors.green : Colors.red,
+          duration: const Duration(seconds: 4),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+      );
+    }
+  }
 
   Future<void> _pickImage(ImageSource source) async {
     // Request permissions
@@ -67,7 +99,6 @@ class _ClassifierPageState extends State<ClassifierPage> {
     }
   }
 
-
   Future<void> _runInference() async {
     if (_image == null) return;
 
@@ -81,11 +112,13 @@ class _ClassifierPageState extends State<ClassifierPage> {
         _results = results;
       });
     } catch (e) {
-      debugPrint("Inference error: $e");
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Error: $e")),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(
+          content: Text("Error: ${e.toString().replaceAll('Exception: ', '')}"),
+          backgroundColor: Colors.red,
+        ));
       }
     } finally {
       setState(() {
@@ -93,7 +126,6 @@ class _ClassifierPageState extends State<ClassifierPage> {
       });
     }
   }
-  
 
   void _reset() {
     setState(() {
@@ -114,11 +146,17 @@ class _ClassifierPageState extends State<ClassifierPage> {
             children: [
               Text(
                 label,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
               ),
               Text(
                 "${(score * 100).toStringAsFixed(2)}%",
-                style: const TextStyle(fontWeight: FontWeight.w600, color: Colors.brown),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.brown,
+                ),
               ),
             ],
           ),
@@ -130,7 +168,9 @@ class _ClassifierPageState extends State<ClassifierPage> {
               minHeight: 10,
               backgroundColor: Colors.grey[200],
               valueColor: AlwaysStoppedAnimation<Color>(
-                score > 0.5 ? Theme.of(context).colorScheme.primary : Colors.brown.shade300,
+                score > 0.5
+                    ? Theme.of(context).colorScheme.primary
+                    : Colors.brown.shade300,
               ),
             ),
           ),
@@ -181,11 +221,19 @@ class _ClassifierPageState extends State<ClassifierPage> {
                     : Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.camera_enhance_rounded, size: 70, color: Colors.brown.shade200),
+                          Icon(
+                            Icons.camera_enhance_rounded,
+                            size: 70,
+                            color: Colors.brown.shade200,
+                          ),
                           const SizedBox(height: 15),
                           Text(
                             "Tap untuk pilih gambar biji kopi",
-                            style: TextStyle(color: Colors.brown.shade300, fontSize: 16, fontWeight: FontWeight.w500),
+                            style: TextStyle(
+                              color: Colors.brown.shade300,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ],
                       ),
@@ -198,28 +246,36 @@ class _ClassifierPageState extends State<ClassifierPage> {
               children: [
                 Expanded(
                   child: ElevatedButton.icon(
-                    onPressed: _isProcessing ? null : () => _pickImage(ImageSource.camera),
+                    onPressed: _isProcessing
+                        ? null
+                        : () => _pickImage(ImageSource.camera),
                     icon: const Icon(Icons.camera_alt),
                     label: const Text("Ambil Foto"),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       backgroundColor: const Color(0xFF6F4E37),
                       foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                     ),
                   ),
                 ),
                 const SizedBox(width: 15),
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: _isProcessing ? null : () => _pickImage(ImageSource.gallery),
+                    onPressed: _isProcessing
+                        ? null
+                        : () => _pickImage(ImageSource.gallery),
                     icon: const Icon(Icons.image),
                     label: const Text("Upload"),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       side: const BorderSide(color: Color(0xFF6F4E37)),
                       foregroundColor: const Color(0xFF6F4E37),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                     ),
                   ),
                 ),
@@ -234,7 +290,10 @@ class _ClassifierPageState extends State<ClassifierPage> {
                   children: [
                     CircularProgressIndicator(color: Color(0xFF6F4E37)),
                     SizedBox(height: 20),
-                    Text("Sedang mengklasifikasi...", style: TextStyle(fontWeight: FontWeight.w500)),
+                    Text(
+                      "Sedang mengklasifikasi...",
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
                   ],
                 ),
               )
@@ -245,18 +304,28 @@ class _ClassifierPageState extends State<ClassifierPage> {
                   const Center(
                     child: Text(
                       "──── Hasil Analisis AI ────",
-                      style: TextStyle(color: Colors.brown, letterSpacing: 1.2, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        color: Colors.brown,
+                        letterSpacing: 1.2,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 20),
-                  
+
                   // Top Prediction Badge
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 20,
+                      horizontal: 16,
+                    ),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [const Color(0xFF6F4E37), Colors.brown.shade400],
+                        colors: [
+                          const Color(0xFF6F4E37),
+                          Colors.brown.shade400,
+                        ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
@@ -271,13 +340,17 @@ class _ClassifierPageState extends State<ClassifierPage> {
                     ),
                     child: Column(
                       children: [
-                        const Text("Prediksi Tertinggi:", style: TextStyle(color: Colors.white70, fontSize: 13)),
+                        const Text(
+                          "Prediksi Tertinggi:",
+                          style: TextStyle(color: Colors.white70, fontSize: 13),
+                        ),
                         const SizedBox(height: 5),
                         Text(
                           _results![0].label.toUpperCase(),
                           style: const TextStyle(
                             fontSize: 28,
-                            fontWeight: FontWeight.w900, // Fixed: Using w900 instead of black
+                            fontWeight: FontWeight
+                                .w900, // Fixed: Using w900 instead of black
                             color: Colors.white,
                             letterSpacing: 2,
                           ),
@@ -289,24 +362,36 @@ class _ClassifierPageState extends State<ClassifierPage> {
 
                   const Text(
                     "Detail Skor Klasifikasi:",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xFF6F4E37)),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Color(0xFF6F4E37),
+                    ),
                   ),
                   const SizedBox(height: 15),
-                  
+
                   // Progress Bars
-                  ..._results!.map((res) => _buildResultItem(res.label, res.score)).toList(),
-                  
+                  ..._results!
+                      .map((res) => _buildResultItem(res.label, res.score))
+                      .toList(),
+
                   const SizedBox(height: 40),
-                  
+
                   // Reset Button
                   Center(
                     child: TextButton.icon(
                       onPressed: _reset,
                       icon: const Icon(Icons.refresh_rounded),
-                      label: const Text("Reset & Scan Lagi", style: TextStyle(fontSize: 16)),
+                      label: const Text(
+                        "Reset & Scan Lagi",
+                        style: TextStyle(fontSize: 16),
+                      ),
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.red.shade700,
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 10,
+                        ),
                       ),
                     ),
                   ),
@@ -322,7 +407,10 @@ class _ClassifierPageState extends State<ClassifierPage> {
                       SizedBox(height: 10),
                       Text(
                         "Pilih foto untuk memulai klasifikasi",
-                        style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontStyle: FontStyle.italic,
+                        ),
                       ),
                     ],
                   ),
