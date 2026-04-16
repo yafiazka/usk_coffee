@@ -8,6 +8,8 @@ Ini Link Hugging Face Space : [Coffee Classifier Space](https://yafiazka-coffee-
 
 Ini Link Dataset : [Dataset Coffee USK](https://drive.google.com/drive/folders/1jMDKadmh39ihWtb6sTqYXOdmr1yIwS5T?usp=drive_link)
 
+Ini Link Jurnal : [Jurnal](https://github.com/yafiazka/usk_coffee/blob/main/assets/docs/Imam_200-2008.pdf)
+
 ## Fitur Utama
 
 - **Inference AI Online**: Menggunakan model Deep Learning yang dideploy di Hugging Face Spaces melalui Gradio API.
